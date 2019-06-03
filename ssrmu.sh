@@ -1022,7 +1022,8 @@ Install_Libsodium(){
 		echo -e "${Info} 解压..."
 		tar -xzf ${Libsodiumr_ver}.tar.gz && cd libsodium-${Libsodiumr_ver}
 		echo -e "${Info} 编译安装..."
-		./configure --disable-maintainer-mode && make -j2 && make install
+		yum -y install automake autoconf libtool
+		mkdir -p build-aux && libtoolize --automake --copy --debug --force &&autoscan && aclocal && autoconf && automake --add-missing && ./configure --disable-maintainer-mode && make -j4 && make install
 		echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
 	else
 		apt-get update
@@ -1033,7 +1034,8 @@ Install_Libsodium(){
 		echo -e "${Info} 解压..."
 		tar -xzf ${Libsodiumr_ver}.tar.gz && cd libsodium-${Libsodiumr_ver}
 		echo -e "${Info} 编译安装..."
-		./configure --disable-maintainer-mode && make -j2 && make install
+		yum -y install automake autoconf
+		mkdir -p build-aux && libtoolize --automake --copy --debug --force &&autoscan && aclocal && autoconf && automake --add-missing && ./configure --disable-maintainer-mode && make -j4 && make install
 	fi
 	ldconfig
 	cd .. && rm -rf ${Libsodiumr_ver}.tar.gz && rm -rf libsodium-${Libsodiumr_ver}
